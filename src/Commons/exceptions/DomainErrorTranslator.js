@@ -20,6 +20,10 @@ DomainErrorTranslator._directories = {
   'ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada'),
   'ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat thread baru karena tipe data tidak sesuai'),
   'ADD_THREAD.OWNER_LIMIT_CHAR': new InvariantError('tidak dapat membuat thread baru karena karakter owner melebihi batas'),
+  'ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat komentar baru karena properti yang dibutuhkan tidak ada'),
+  'ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat komentar baru karena tipe data tidak sesuai'),
+  'ADD_COMMENT.OWNER_LIMIT_CHAR': new InvariantError('tidak dapat membuat komentar baru karena karakter owner melebihi batas'),
+  'ADD_COMMENT.THREAD_LIMIT_CHAR': new InvariantError('tidak dapat membuat komentar baru karena karakter thread melebihi batas'),
 };
 
 module.exports = DomainErrorTranslator;
