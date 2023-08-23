@@ -1,3 +1,4 @@
+const AuthorizationError = require('./AuthorizationError');
 const InvariantError = require('./InvariantError');
 
 const DomainErrorTranslator = {
@@ -24,7 +25,7 @@ DomainErrorTranslator._directories = {
   'ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat komentar baru karena tipe data tidak sesuai'),
   'ADD_COMMENT.OWNER_LIMIT_CHAR': new InvariantError('tidak dapat membuat komentar baru karena karakter owner melebihi batas'),
   'ADD_COMMENT.THREAD_LIMIT_CHAR': new InvariantError('tidak dapat membuat komentar baru karena karakter thread melebihi batas'),
-  'DELETE_COMMENT_USE_CASE.REQUEST_NOT_BY_OWNER': new InvariantError('Tidak dapaet menghapus komentar karena thread bukan milik anda'),
+  'DELETE_COMMENT_USE_CASE.REQUEST_NOT_BY_OWNER': new AuthorizationError('Tidak dapat menghapus komentar orang lain'),
   'DELETE_COMMENT_USE_CASE.NOT_CONTAIN_REQUIRED_PARAMETERS': new InvariantError('tidak dapat menghapus komentar karena parameter yang dibutuhkan tidak ada'),
   'DELETE_COMMENT_USE_CASE.PARAMETERS_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat menghapus komentar karena tipe data tidak sesuai'),
   'GET_THREAD_USE_CASE.NOT_CONTAIN_REQUIRED_PARAMETERS': new InvariantError('tidak dapat melihat detail thread karena parameter yang dibutuhkan tidak ada'),

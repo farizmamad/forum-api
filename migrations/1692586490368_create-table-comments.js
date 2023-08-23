@@ -9,7 +9,6 @@ exports.up = pgm => {
     content: {
       type: 'TEXT',
       notNull: true,
-      unique: true,
     },
     is_delete: {
       type: 'BOOLEAN',

@@ -1,3 +1,4 @@
+const AuthorizationError = require('../AuthorizationError');
 const DomainErrorTranslator = require('../DomainErrorTranslator');
 const InvariantError = require('../InvariantError');
 
@@ -40,7 +41,7 @@ describe('DomainErrorTranslator', () => {
     expect(DomainErrorTranslator.translate(new Error('ADD_COMMENT.THREAD_LIMIT_CHAR')))
       .toStrictEqual(new InvariantError('tidak dapat membuat komentar baru karena karakter thread melebihi batas'));
     expect(DomainErrorTranslator.translate(new Error('DELETE_COMMENT_USE_CASE.REQUEST_NOT_BY_OWNER')))
-      .toStrictEqual(new InvariantError('Tidak dapaet menghapus komentar karena thread bukan milik anda'));
+      .toStrictEqual(new AuthorizationError('Tidak dapat menghapus komentar orang lain'));
     expect(DomainErrorTranslator.translate(new Error('DELETE_COMMENT_USE_CASE.NOT_CONTAIN_REQUIRED_PARAMETERS')))
       .toStrictEqual(new InvariantError('tidak dapat menghapus komentar karena parameter yang dibutuhkan tidak ada'));
     expect(DomainErrorTranslator.translate(new Error('DELETE_COMMENT_USE_CASE.PARAMETERS_NOT_MEET_DATA_TYPE_SPECIFICATION')))

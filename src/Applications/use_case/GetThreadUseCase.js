@@ -9,9 +9,14 @@ class GetThreadUseCase {
     this._validateParameters({ threadId });
     const thread = await this._threadRepository.findThreadById(threadId);
     thread.username = await this._userRepository.findUsernameById(thread.owner);
+    thread.owner = undefined;
     thread.comments = await this._commentRepository.findCommentsByThreadId(thread.id);
     thread.comments = await Promise.all(thread.comments?.map(async (comment) => {
       comment.username = await this._userRepository.findUsernameById(comment.owner);
+      comment.owner = undefined;
+      if (comment.is_delete) {
+        comment.content = '**komentar telah dihapus**';
+      }
       return comment;
     }));
     return thread;

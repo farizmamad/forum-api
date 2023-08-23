@@ -1,6 +1,6 @@
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
-const InvariantError = require('../../../Commons/exceptions/InvariantError');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const AddThread = require('../../../Domains/threads/entities/AddThread');
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
 const pool = require('../../database/postgres/pool');
@@ -62,7 +62,7 @@ describe('ThreadRepositoryPostgres', () => {
   });
 
   describe('findThreadById function', () => {
-    it('should return added thread correctly', async () => {
+    it('should return get thread correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({});
 
@@ -76,13 +76,14 @@ describe('ThreadRepositoryPostgres', () => {
 
       // Action
       const addedThread = await threadRepositoryPostgres.addThread(addThread);
+      const getThread = await threadRepositoryPostgres.findThreadById(addedThread.id);
 
       // Assert
-      expect(addedThread).toStrictEqual(new AddedThread({
-        id: 'thread-123',
-        title: 'sebuah title',
-        owner: 'user-123',
-      }));
+      expect(getThread.id).toBeDefined();
+      expect(getThread.title).toBeDefined();
+      expect(getThread.body).toBeDefined();
+      expect(getThread.date).toBeDefined();
+      expect(getThread.owner).toBeDefined();
     });
 
     it('should throw error if thread was not found', async () => {
@@ -90,7 +91,7 @@ describe('ThreadRepositoryPostgres', () => {
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
-      expect(threadRepositoryPostgres.findThreadById('thread-123')).rejects.toThrowError(InvariantError);
+      expect(threadRepositoryPostgres.findThreadById('thread-123')).rejects.toThrowError(NotFoundError);
     });
   });
 });

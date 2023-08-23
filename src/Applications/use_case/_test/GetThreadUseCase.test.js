@@ -84,12 +84,20 @@ describe('GetThreadUseCase', () => {
     mockUserRepository.findUsernameById = jest.fn()
       .mockImplementation(() => Promise.resolve('dicoding'));
     mockCommentRepository.findCommentsByThreadId = jest.fn()
-      .mockImplementation(() => Promise.resolve([new GetComment({
+      .mockImplementation(() => Promise.resolve([{
         id: "comment-123",
         owner: "user-123",
         date: "2021-08-08T07:22:33.555Z",
-        content: "sebuah comment"
-      })]));
+        content: "sebuah comment",
+        is_delete: false,
+      },
+      {
+        id: "comment-123",
+        owner: "user-123",
+        date: "2021-08-08T07:22:33.555Z",
+        content: "sebuah comment",
+        is_delete: true,
+      }]));
 
     const getThreadUseCase = new GetThreadUseCase({
       threadRepository: mockThreadRepository,
@@ -105,6 +113,9 @@ describe('GetThreadUseCase', () => {
     expect(mockUserRepository.findUsernameById).toHaveBeenCalledWith(ownerId);
     expect(mockCommentRepository.findCommentsByThreadId).toHaveBeenCalledWith(threadId);
     expect(thread.username).toBeDefined();
-    thread.comments.map(comment => expect(comment.username).toBeDefined());
+    thread.comments.map(comment => {
+      expect(comment.username).toBeDefined();
+      if (comment.is_delete) expect(comment.content).toEqual('**komentar telah dihapus**')
+    });
   });
 });
