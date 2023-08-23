@@ -11,6 +11,15 @@ exports.up = pgm => {
       notNull: true,
       unique: true,
     },
+    is_delete: {
+      type: 'BOOLEAN',
+      default: false,
+      notNull: true,
+    },
+    date: {
+      type: 'TEXT',
+      notNull: true,
+    },
     owner: {
       type: 'VARCHAR(50)',
       notNull: true,

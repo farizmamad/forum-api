@@ -14,8 +14,8 @@ class CommentRepositoryPostgres extends CommentRepository {
     const id = `comment-${this._idGenerator()}`;
 
     const query = {
-      text: 'INSERT INTO comments VALUES($1, $2, $3, $4) RETURNING id, content, owner',
-      values: [id, content, owner, thread],
+      text: 'INSERT INTO comments VALUES($1, $2, $3, $4, $5, $6) RETURNING id, content, owner',
+      values: [id, content, false, new Date(), owner, thread],
     };
 
     const result = await this._pool.query(query);
@@ -25,7 +25,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async deleteComment(commentId) {
     const query = {
-      text: 'DELETE FROM comments WHERE id = $1',
+      text: 'UPDATE comments SET is_delete = true WHERE id = $1',
       values: [commentId],
     };
 

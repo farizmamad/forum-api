@@ -12,13 +12,13 @@ describe('DeleteCommentUseCase', () => {
     const mockCommentRepository = new CommentRepository();
     const mockThreadRepository = new ThreadRepository();
 
-    const deleteAuthenticationUseCase = new DeleteCommentUseCase({
+    const deleteCommentUseCase = new DeleteCommentUseCase({
       commentRepository: mockCommentRepository,
       threadRepository: mockThreadRepository,
     });
 
     // Action & Assert
-    await expect(deleteAuthenticationUseCase.execute(userId, threadId))
+    await expect(deleteCommentUseCase.execute(userId, threadId))
       .rejects
       .toThrowError('DELETE_COMMENT_USE_CASE.NOT_CONTAIN_REQUIRED_PARAMETERS');
   });

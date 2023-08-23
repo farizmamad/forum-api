@@ -88,7 +88,8 @@ describe('CommentRepositoryPostgres', () => {
 
       // Assert
       const commentsAfterDelete = await CommentsTableTestHelper.findCommentsById('comment-123');
-      expect(commentsAfterDelete).toHaveLength(0);
+      expect(commentsAfterDelete).toHaveLength(1);
+      expect(commentsAfterDelete[0].is_delete).toBeTruthy();
     });
   });
 });
