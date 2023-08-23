@@ -21,7 +21,7 @@ class LoginUserUseCase {
 
     await this._passwordHash.comparePassword(password, encryptedPassword);
 
-    const id = await this._userRepository.getIdByUsername(username);
+    const id = await this._userRepository.findIdByUsername(username);
 
     const accessToken = await this._authenticationTokenManager
       .createAccessToken({ username, id });

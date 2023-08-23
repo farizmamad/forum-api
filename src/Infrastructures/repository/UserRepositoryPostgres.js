@@ -51,7 +51,7 @@ class UserRepositoryPostgres extends UserRepository {
     return result.rows[0].password;
   }
 
-  async getIdByUsername(username) {
+  async findIdByUsername(username) {
     const query = {
       text: 'SELECT id FROM users WHERE username = $1',
       values: [username],
