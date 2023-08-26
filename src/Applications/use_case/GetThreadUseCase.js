@@ -1,3 +1,5 @@
+const GetComment = require("../../Domains/comments/entities/GetComment");
+
 class GetThreadUseCase {
   constructor({ threadRepository, userRepository, commentRepository }) {
     this._threadRepository = threadRepository;
@@ -14,10 +16,7 @@ class GetThreadUseCase {
     thread.comments = await Promise.all(thread.comments?.map(async (comment) => {
       comment.username = await this._userRepository.findUsernameById(comment.owner);
       comment.owner = undefined;
-      if (comment.is_delete) {
-        comment.content = '**komentar telah dihapus**';
-      }
-      return comment;
+      return new GetComment(comment);
     }));
     return thread;
   }

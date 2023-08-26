@@ -59,7 +59,7 @@ describe('an GetComment entities', () => {
     expect(() => new GetComment(payload4)).toThrowError('GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
-  it('should create getComment object correctly', () => {
+  it('should create getComment object correctly if is_delete is not true', () => {
     // Arrange
     const payload = {
       id: "comment-h_2FkLZhtgBKY2kh4CC02",
@@ -76,5 +76,25 @@ describe('an GetComment entities', () => {
     expect(username).toEqual(payload.username);
     expect(date).toEqual(payload.date);
     expect(content).toEqual(payload.content);
+  });
+
+  it('should create getComment object correctly if is_delete is true', () => {
+    // Arrange
+    const payload = {
+      id: "comment-h_2FkLZhtgBKY2kh4CC02",
+      username: "dicoding",
+      date: "2021-08-08T07:19:09.775Z",
+      content: "sebuah content",
+      is_delete: true,
+    };
+
+    // Action
+    const { id, username, date, content } = new GetComment(payload);
+
+    // Assert
+    expect(id).toEqual(payload.id);
+    expect(username).toEqual(payload.username);
+    expect(date).toEqual(payload.date);
+    expect(content).toEqual('**komentar telah dihapus**');
   });
 });

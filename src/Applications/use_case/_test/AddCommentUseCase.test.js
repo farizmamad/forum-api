@@ -28,7 +28,7 @@ describe('AddCommentUseCase', () => {
         content: useCasePayload.content,
         owner: mockUserId,
       })));
-    mockThreadRepository.findThreadById = jest.fn()
+    mockThreadRepository.verifyThreadAvailability = jest.fn()
       .mockImplementation(() => Promise.resolve());
 
     /** creating use case instance */
@@ -52,5 +52,6 @@ describe('AddCommentUseCase', () => {
       owner: mockUserId,
       thread: mockThreadId,
     }));
+    expect(mockThreadRepository.verifyThreadAvailability).toBeCalledWith(mockThreadId);
   });
 });

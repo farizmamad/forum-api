@@ -4,42 +4,32 @@ const AddedThread = require('../../../Domains/threads/entities/AddedThread');
 const DeleteCommentUseCase = require('../DeleteCommentUseCase');
 
 describe('DeleteCommentUseCase', () => {
-  it('should throw error if use case payload not contain commentId', async () => {
+  it('should throw error if thread owner is different from user id', async () => {
     // Arrange
-    const userId = 'user-123';
+    const userId = 'user-234';
     const threadId = 'thread-123';
+    const commentId = 'comment-123';
 
     const mockCommentRepository = new CommentRepository();
-    const mockThreadRepository = new ThreadRepository();
+    const mockThreadRepository = new ThreadRepository();    
+    
+    mockCommentRepository.deleteComment = jest.fn()
+      .mockImplementation(() => Promise.resolve());
+    mockThreadRepository.findThreadById = jest.fn()
+      .mockImplementation(() => Promise.resolve(new AddedThread({
+        id: 'thread-123',
+        title: 'sebuah thread',
+        owner: 'user-123',
+      })));
 
     const deleteCommentUseCase = new DeleteCommentUseCase({
       commentRepository: mockCommentRepository,
-      threadRepository: mockThreadRepository,
+      threadRepository: mockThreadRepository
     });
 
-    // Action & Assert
-    await expect(deleteCommentUseCase.execute(userId, threadId))
-      .rejects
-      .toThrowError('DELETE_COMMENT_USE_CASE.NOT_CONTAIN_REQUIRED_PARAMETERS');
-  });
-
-  it('should throw error if commentId not string', async () => {
-    // Arrange
-    const userId = 'user-123';
-    const threadId = 'thread-123';
-
-    const mockCommentRepository = new CommentRepository();
-    const mockThreadRepository = new ThreadRepository();
-
-    const deleteCommentUseCase = new DeleteCommentUseCase({
-      commentRepository: mockCommentRepository,
-      threadRepository: mockThreadRepository,
-    });
-
-    // Action & Assert
-    await expect(deleteCommentUseCase.execute(userId, threadId, 123))
-      .rejects
-      .toThrowError('DELETE_COMMENT_USE_CASE.PARAMETERS_NOT_MEET_DATA_TYPE_SPECIFICATION');
+    // Action and Assert
+    expect(deleteCommentUseCase.execute(userId, threadId, commentId))
+      .rejects.toThrowError('DELETE_COMMENT_USE_CASE.REQUEST_NOT_BY_OWNER');
   });
 
   it('should orchestrating the delete comment action correctly', async () => {

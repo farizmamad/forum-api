@@ -8,7 +8,7 @@ class GetComment {
     this.date = date;
     this.content = content;
     if (is_delete) {
-      comment.content = '**komentar telah dihapus**';
+      this.content = '**komentar telah dihapus**';
     }
   }
 

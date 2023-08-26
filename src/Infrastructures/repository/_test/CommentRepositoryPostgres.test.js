@@ -38,6 +38,9 @@ describe('CommentRepositoryPostgres', () => {
       // Assert
       const comments = await CommentsTableTestHelper.findCommentsById('comment-123');
       expect(comments).toHaveLength(1);
+      expect(comments[0].id).toBeDefined();
+      expect(comments[0].content).toEqual('sebuah content');
+      expect(comments[0].owner).toEqual('user-123');
     });
 
     it('should return added comment correctly', async () => {
@@ -84,6 +87,7 @@ describe('CommentRepositoryPostgres', () => {
       
       const commentsBeforeDelete = await CommentsTableTestHelper.findCommentsById('comment-123');
       expect(commentsBeforeDelete).toHaveLength(1);
+      expect(commentsBeforeDelete.is_delete).toBeFalsy();
 
       await commentRepositoryPostgres.deleteComment(addedComment.id);
 
@@ -116,12 +120,13 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
-      await commentRepositoryPostgres.addComment(addComment);
+      const result = await commentRepositoryPostgres.addComment(addComment);
 
       const comments = await commentRepositoryPostgres.findCommentsByThreadId('thread-123');
       
       // Assert
       expect(comments).toHaveLength(1);
+      expect(comments[0].id).toEqual(result.id);
     });
   });
 });
