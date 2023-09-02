@@ -10,6 +10,7 @@ class CommentsHandler {
   }
 
   async postCommentHandler(request, h) {
+    console.log(JSON.stringify(request?.auth));
     const addCommentUseCase = this._container.getInstance(AddCommentUseCase.name);
     const { id: credentialId } = request.auth.credentials;
     const { threadId } = request.params; 
