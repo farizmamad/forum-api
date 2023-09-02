@@ -44,6 +44,7 @@ jobs:
     - name: npm install migrate and test
       run: |
         npm install
+        npm rebuild bcrypt --build-from-source
         npm run migrate up
         npm run test
       env:
