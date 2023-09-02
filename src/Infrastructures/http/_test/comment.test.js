@@ -50,8 +50,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       });
 
       const responseJsonAuthentication = JSON.parse(authenticationResponse.payload);
-      console.log(responseJsonAuthentication)
-
+      console.log(responseJsonAuthentication?.data?.accessToken);
       const createThreadPayload = {
         title: 'Sebuah title',
         body: 'Sebuah body',
