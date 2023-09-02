@@ -14,7 +14,8 @@ class BcryptPasswordHash extends EncryptionHelper {
 
   async comparePassword(password, hashedPassword) {
     const result = await this._bcrypt.compare(password, hashedPassword);
-
+    console.log(password, hashedPassword);
+console.log('compare password result', result);
     if (!result) {
       throw new AuthenticationError('kredensial yang Anda masukkan salah');
     }
