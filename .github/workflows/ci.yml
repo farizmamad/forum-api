@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    container: node:10.18-jessie
+    container: node:16.13.2-alpine
 
     services:
       # Label used to access the service container
@@ -44,6 +44,7 @@ jobs:
     - name: npm install migrate and test
       run: |
         npm install
+        npm rebuild bcrypt --build-from-source
         npm run migrate up
         npm run test
       env:
